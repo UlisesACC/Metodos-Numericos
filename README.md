@@ -1,46 +1,43 @@
-# WindowsFormsApp1
-````````
+# Mï¿½todos Numï¿½ricos - Aplicaciï¿½n Windows Forms
 
-# Métodos Numéricos - Aplicación Windows Forms
-
-Una aplicación educativa que implementa cinco métodos numéricos clásicos para encontrar raíces de ecuaciones no lineales.
+Una aplicaciï¿½n educativa que implementa cinco mï¿½todos numï¿½ricos clï¿½sicos para encontrar raï¿½ces de ecuaciones no lineales.
 
 ## ?? Tabla de Contenidos
 
-- [Descripción General](#descripción-general)
-- [Características](#características)
-- [Instalación](#instalación)
-- [Métodos Implementados](#métodos-implementados)
-  - [1. Bisección](#1-bisección)
+- [Descripciï¿½n General](#descripciï¿½n-general)
+- [Caracterï¿½sticas](#caracterï¿½sticas)
+- [Instalaciï¿½n](#instalaciï¿½n)
+- [Mï¿½todos Implementados](#mï¿½todos-implementados)
+  - [1. Bisecciï¿½n](#1-bisecciï¿½n)
   - [2. Secante](#2-secante)
-  - [3. Falsa Posición](#3-falsa-posición)
+  - [3. Falsa Posiciï¿½n](#3-falsa-posiciï¿½n)
   - [4. Newton-Raphson](#4-newton-raphson)
-  - [5. Müller](#5-müller)
+  - [5. Mï¿½ller](#5-mï¿½ller)
 - [Uso](#uso)
 - [Requisitos](#requisitos)
 
 ---
 
-## ?? Descripción General
+## ?? Descripciï¿½n General
 
-Esta aplicación proporciona una interfaz gráfica intuitiva para calcular raíces de ecuaciones utilizando diferentes métodos numéricos. Cada método tiene su propia pantalla con entrada de parámetros, validación de datos y visualización de resultados iterativos.
+Esta aplicaciï¿½n proporciona una interfaz grï¿½fica intuitiva para calcular raï¿½ces de ecuaciones utilizando diferentes mï¿½todos numï¿½ricos. Cada mï¿½todo tiene su propia pantalla con entrada de parï¿½metros, validaciï¿½n de datos y visualizaciï¿½n de resultados iterativos.
 
 ---
 
-## ? Características
+## ? Caracterï¿½sticas
 
-- ? Interfaz profesional con barra lateral de navegación
-- ? Teclado matemático visual para insertar ecuaciones
-- ? Soporta funciones trigonométricas: sin(x), cos(x), tan(x)
-- ? Soporta funciones matemáticas: sqrt(x), log(x), ln(x), exp(x), abs(x)
+- ? Interfaz profesional con barra lateral de navegaciï¿½n
+- ? Teclado matemï¿½tico visual para insertar ecuaciones
+- ? Soporta funciones trigonomï¿½tricas: sin(x), cos(x), tan(x)
+- ? Soporta funciones matemï¿½ticas: sqrt(x), log(x), ln(x), exp(x), abs(x)
 - ? Tabla de resultados iterativos detallada
-- ? Validación completa de entradas
+- ? Validaciï¿½n completa de entradas
 - ? Mensajes de error descriptivos
-- ? Soporte para constantes matemáticas: ? (PI), e
+- ? Soporte para constantes matemï¿½ticas: ? (PI), e
 
 ---
 
-## ?? Instalación
+## ?? Instalaciï¿½n
 
 1. Clonar el repositorio:
 ```bash
@@ -60,30 +57,30 @@ dotnet run
 
 ---
 
-## ?? Métodos Implementados
+## ?? Mï¿½todos Implementados
 
-### 1. Bisección
+### 1. Bisecciï¿½n
 
-**Descripción**: Método que divide repetidamente un intervalo por la mitad para localizar la raíz.
+**Descripciï¿½n**: Mï¿½todo que divide repetidamente un intervalo por la mitad para localizar la raï¿½z.
 
-#### Ecuación Fundamental
+#### Ecuaciï¿½n Fundamental
 
 ```
 c = (a + b) / 2
 ```
 
 Donde:
-- **a** = límite inferior del intervalo
-- **b** = límite superior del intervalo
-- **c** = punto medio (aproximación de la raíz)
+- **a** = lï¿½mite inferior del intervalo
+- **b** = lï¿½mite superior del intervalo
+- **c** = punto medio (aproximaciï¿½n de la raï¿½z)
 
-#### Condición de Convergencia
+#### Condiciï¿½n de Convergencia
 
 ```
 f(a) * f(b) < 0
 ```
 
-Es decir, la función debe cambiar de signo en el intervalo [a, b].
+Es decir, la funciï¿½n debe cambiar de signo en el intervalo [a, b].
 
 #### Criterio de Error
 
@@ -91,20 +88,20 @@ Es decir, la función debe cambiar de signo en el intervalo [a, b].
 Error = |b - a| / 2
 ```
 
-#### Algoritmo en Pseudocódigo
+#### Algoritmo en Pseudocï¿½digo
 
 ```
-ALGORITMO Bisección(f, a, b, tolerancia, maxIteraciones)
+ALGORITMO Bisecciï¿½n(f, a, b, tolerancia, maxIteraciones)
     ENTRADA: 
-        - f: función a resolver
+        - f: funciï¿½n a resolver
         - a, b: intervalo inicial [a, b]
         - tolerancia: criterio de convergencia
-        - maxIteraciones: máximo de iteraciones permitidas
+        - maxIteraciones: mï¿½ximo de iteraciones permitidas
     
-    SALIDA: raíz aproximada x
+    SALIDA: raï¿½z aproximada x
     
     INICIO
-        iteración ? 0
+        iteraciï¿½n ? 0
         error ? |b - a|
         
         // Validar que hay cambio de signo
@@ -112,27 +109,27 @@ ALGORITMO Bisección(f, a, b, tolerancia, maxIteraciones)
             RETORNAR "Error: No hay cambio de signo"
         FIN SI
         
-        MIENTRAS error > tolerancia Y iteración < maxIteraciones HACER
+        MIENTRAS error > tolerancia Y iteraciï¿½n < maxIteraciones HACER
             c ? (a + b) / 2
             fc ? f(c)
             fa ? f(a)
             error ? |b - a| / 2
             
-            // Guardar resultado de la iteración
-            GUARDAR(iteración, a, b, c, fc, error)
+            // Guardar resultado de la iteraciï¿½n
+            GUARDAR(iteraciï¿½n, a, b, c, fc, error)
             
             // Elegir subintervalo
             SI fa * fc < 0 ENTONCES
-                b ? c          // La raíz está en [a, c]
+                b ? c          // La raï¿½z estï¿½ en [a, c]
             SINO
-                a ? c          // La raíz está en [c, b]
+                a ? c          // La raï¿½z estï¿½ en [c, b]
             FIN SI
             
-            iteración ? iteración + 1
+            iteraciï¿½n ? iteraciï¿½n + 1
         FIN MIENTRAS
         
-        raíz ? (a + b) / 2
-        RETORNAR raíz
+        raï¿½z ? (a + b) / 2
+        RETORNAR raï¿½z
     FIN
 ```
 
@@ -140,20 +137,20 @@ ALGORITMO Bisección(f, a, b, tolerancia, maxIteraciones)
 
 ### 2. Secante
 
-**Descripción**: Método que utiliza la línea secante que pasa por dos puntos consecutivos de la función.
+**Descripciï¿½n**: Mï¿½todo que utiliza la lï¿½nea secante que pasa por dos puntos consecutivos de la funciï¿½n.
 
-#### Ecuación Fundamental
+#### Ecuaciï¿½n Fundamental
 
 ```
 x_n = x_{n-1} - f(x_{n-1}) * (x_{n-1} - x_{n-2}) / (f(x_{n-1}) - f(x_{n-2}))
 ```
 
 Donde:
-- **x_{n-2}** = aproximación anterior a la anterior
-- **x_{n-1}** = aproximación anterior
-- **x_n** = nueva aproximación
-- **f(x_{n-1})** = valor de la función en x_{n-1}
-- **f(x_{n-2})** = valor de la función en x_{n-2}
+- **x_{n-2}** = aproximaciï¿½n anterior a la anterior
+- **x_{n-1}** = aproximaciï¿½n anterior
+- **x_n** = nueva aproximaciï¿½n
+- **f(x_{n-1})** = valor de la funciï¿½n en x_{n-1}
+- **f(x_{n-2})** = valor de la funciï¿½n en x_{n-2}
 
 #### Criterio de Error
 
@@ -161,24 +158,24 @@ Donde:
 Error = |x_n - x_{n-1}|
 ```
 
-#### Algoritmo en Pseudocódigo
+#### Algoritmo en Pseudocï¿½digo
 
 ```
 ALGORITMO Secante(f, x0, x1, tolerancia, maxIteraciones)
     ENTRADA:
-        - f: función a resolver
-        - x0: primera aproximación inicial
-        - x1: segunda aproximación inicial
+        - f: funciï¿½n a resolver
+        - x0: primera aproximaciï¿½n inicial
+        - x1: segunda aproximaciï¿½n inicial
         - tolerancia: criterio de convergencia
-        - maxIteraciones: máximo de iteraciones permitidas
+        - maxIteraciones: mï¿½ximo de iteraciones permitidas
     
-    SALIDA: raíz aproximada x
+    SALIDA: raï¿½z aproximada x
     
     INICIO
-        iteración ? 0
+        iteraciï¿½n ? 0
         error ? infinito
         
-        MIENTRAS error > tolerancia Y iteración < maxIteraciones HACER
+        MIENTRAS error > tolerancia Y iteraciï¿½n < maxIteraciones HACER
             fx0 ? f(x0)
             fx1 ? f(x1)
             
@@ -187,17 +184,17 @@ ALGORITMO Secante(f, x0, x1, tolerancia, maxIteraciones)
                 RETORNAR "Error: Denominador muy cercano a cero"
             FIN SI
             
-            // Calcular nueva aproximación usando la fórmula de la secante
+            // Calcular nueva aproximaciï¿½n usando la fï¿½rmula de la secante
             x2 ? x1 - fx1 * (x1 - x0) / (fx1 - fx0)
             error ? |x2 - x1|
             
-            // Guardar resultado de la iteración
-            GUARDAR(iteración, x0, x1, fx1, x2, error)
+            // Guardar resultado de la iteraciï¿½n
+            GUARDAR(iteraciï¿½n, x0, x1, fx1, x2, error)
             
             // Actualizar aproximaciones
             x0 ? x1
             x1 ? x2
-            iteración ? iteración + 1
+            iteraciï¿½n ? iteraciï¿½n + 1
         FIN MIENTRAS
         
         RETORNAR x1
@@ -206,29 +203,29 @@ ALGORITMO Secante(f, x0, x1, tolerancia, maxIteraciones)
 
 ---
 
-### 3. Falsa Posición
+### 3. Falsa Posiciï¿½n
 
-**Descripción**: Similar a bisección pero usa interpolación lineal en lugar de punto medio.
+**Descripciï¿½n**: Similar a bisecciï¿½n pero usa interpolaciï¿½n lineal en lugar de punto medio.
 
-#### Ecuación Fundamental
+#### Ecuaciï¿½n Fundamental
 
 ```
 c = a - f(a) * (b - a) / (f(b) - f(a))
 ```
 
 Donde:
-- **a** = límite inferior del intervalo
-- **b** = límite superior del intervalo
-- **c** = aproximación por interpolación lineal
-- **f(a)**, **f(b)** = valores de la función en los extremos
+- **a** = lï¿½mite inferior del intervalo
+- **b** = lï¿½mite superior del intervalo
+- **c** = aproximaciï¿½n por interpolaciï¿½n lineal
+- **f(a)**, **f(b)** = valores de la funciï¿½n en los extremos
 
-#### Condición de Convergencia
+#### Condiciï¿½n de Convergencia
 
 ```
 f(a) * f(b) < 0
 ```
 
-(Igual que bisección)
+(Igual que bisecciï¿½n)
 
 #### Criterio de Error
 
@@ -236,20 +233,20 @@ f(a) * f(b) < 0
 Error = |b - a|
 ```
 
-#### Algoritmo en Pseudocódigo
+#### Algoritmo en Pseudocï¿½digo
 
 ```
-ALGORITMO FalsaPosición(f, a, b, tolerancia, maxIteraciones)
+ALGORITMO FalsaPosiciï¿½n(f, a, b, tolerancia, maxIteraciones)
     ENTRADA:
-        - f: función a resolver
+        - f: funciï¿½n a resolver
         - a, b: intervalo inicial [a, b]
         - tolerancia: criterio de convergencia
-        - maxIteraciones: máximo de iteraciones permitidas
+        - maxIteraciones: mï¿½ximo de iteraciones permitidas
     
-    SALIDA: raíz aproximada x
+    SALIDA: raï¿½z aproximada x
     
     INICIO
-        iteración ? 0
+        iteraciï¿½n ? 0
         error ? infinito
         
         // Validar que hay cambio de signo
@@ -260,31 +257,31 @@ ALGORITMO FalsaPosición(f, a, b, tolerancia, maxIteraciones)
             RETORNAR "Error: No hay cambio de signo"
         FIN SI
         
-        MIENTRAS error > tolerancia Y iteración < maxIteraciones HACER
+        MIENTRAS error > tolerancia Y iteraciï¿½n < maxIteraciones HACER
             fa ? f(a)
             fb ? f(b)
             
-            // Calcular punto de intersección de la recta con eje x
+            // Calcular punto de intersecciï¿½n de la recta con eje x
             c ? a - fa * (b - a) / (fb - fa)
             fc ? f(c)
             
             error ? |b - a|
             
-            // Guardar resultado de la iteración
-            GUARDAR(iteración, a, b, c, fc, error)
+            // Guardar resultado de la iteraciï¿½n
+            GUARDAR(iteraciï¿½n, a, b, c, fc, error)
             
             // Elegir subintervalo
             SI fa * fc < 0 ENTONCES
-                b ? c          // La raíz está en [a, c]
+                b ? c          // La raï¿½z estï¿½ en [a, c]
             SINO
-                a ? c          // La raíz está en [c, b]
+                a ? c          // La raï¿½z estï¿½ en [c, b]
             FIN SI
             
-            iteración ? iteración + 1
+            iteraciï¿½n ? iteraciï¿½n + 1
         FIN MIENTRAS
         
-        raíz ? (a + b) / 2
-        RETORNAR raíz
+        raï¿½z ? (a + b) / 2
+        RETORNAR raï¿½z
     FIN
 ```
 
@@ -292,18 +289,18 @@ ALGORITMO FalsaPosición(f, a, b, tolerancia, maxIteraciones)
 
 ### 4. Newton-Raphson
 
-**Descripción**: Método que utiliza la derivada de la función para encontrar la raíz.
+**Descripciï¿½n**: Mï¿½todo que utiliza la derivada de la funciï¿½n para encontrar la raï¿½z.
 
-#### Ecuación Fundamental
+#### Ecuaciï¿½n Fundamental
 
 ```
 x_{n+1} = x_n - f(x_n) / f'(x_n)
 ```
 
 Donde:
-- **x_n** = aproximación actual
-- **x_{n+1}** = nueva aproximación
-- **f(x_n)** = valor de la función en x_n
+- **x_n** = aproximaciï¿½n actual
+- **x_{n+1}** = nueva aproximaciï¿½n
+- **f(x_n)** = valor de la funciï¿½n en x_n
 - **f'(x_n)** = derivada de f evaluada en x_n
 
 #### Criterio de Error
@@ -312,25 +309,25 @@ Donde:
 Error = |x_{n+1} - x_n|
 ```
 
-#### Algoritmo en Pseudocódigo
+#### Algoritmo en Pseudocï¿½digo
 
 ```
 ALGORITMO NewtonRaphson(f, f', x0, tolerancia, maxIteraciones)
     ENTRADA:
-        - f: función a resolver
+        - f: funciï¿½n a resolver
         - f': derivada de f
-        - x0: aproximación inicial
+        - x0: aproximaciï¿½n inicial
         - tolerancia: criterio de convergencia
-        - maxIteraciones: máximo de iteraciones permitidas
+        - maxIteraciones: mï¿½ximo de iteraciones permitidas
     
-    SALIDA: raíz aproximada x
+    SALIDA: raï¿½z aproximada x
     
     INICIO
-        iteración ? 0
+        iteraciï¿½n ? 0
         error ? infinito
         x ? x0
         
-        MIENTRAS error > tolerancia Y iteración < maxIteraciones HACER
+        MIENTRAS error > tolerancia Y iteraciï¿½n < maxIteraciones HACER
             fx ? f(x)
             fpx ? f'(x)
             
@@ -339,15 +336,15 @@ ALGORITMO NewtonRaphson(f, f', x0, tolerancia, maxIteraciones)
                 RETORNAR "Error: Derivada muy cercana a cero"
             FIN SI
             
-            // Calcular nueva aproximación
+            // Calcular nueva aproximaciï¿½n
             xNext ? x - fx / fpx
             error ? |xNext - x|
             
-            // Guardar resultado de la iteración
-            GUARDAR(iteración, x, fx, fpx, xNext, error)
+            // Guardar resultado de la iteraciï¿½n
+            GUARDAR(iteraciï¿½n, x, fx, fpx, xNext, error)
             
             x ? xNext
-            iteración ? iteración + 1
+            iteraciï¿½n ? iteraciï¿½n + 1
         FIN MIENTRAS
         
         RETORNAR x
@@ -356,9 +353,9 @@ ALGORITMO NewtonRaphson(f, f', x0, tolerancia, maxIteraciones)
 
 ---
 
-### 5. Müller
+### 5. Mï¿½ller
 
-**Descripción**: Método que aproxima la función mediante una parábola usando tres puntos.
+**Descripciï¿½n**: Mï¿½todo que aproxima la funciï¿½n mediante una parï¿½bola usando tres puntos.
 
 #### Ecuaciones Fundamentales
 
@@ -382,13 +379,13 @@ c = f(x_2)
 **Discriminante:**
 
 ```
-discriminante = b² - 4*a*c
+discriminante = bï¿½ - 4*a*c
 ```
 
-**Nueva Aproximación:**
+**Nueva Aproximaciï¿½n:**
 
 ```
-x_3 = x_2 - (2*c) / (b ± sqrt(b² - 4*a*c))
+x_3 = x_2 - (2*c) / (b ï¿½ sqrt(bï¿½ - 4*a*c))
 ```
 
 Se elige el signo que da mayor magnitud en el denominador.
@@ -399,24 +396,24 @@ Se elige el signo que da mayor magnitud en el denominador.
 Error = |x_3 - x_2|
 ```
 
-#### Algoritmo en Pseudocódigo
+#### Algoritmo en Pseudocï¿½digo
 
 ```
-ALGORITMO Müller(f, x0, x1, x2, tolerancia, maxIteraciones)
+ALGORITMO Mï¿½ller(f, x0, x1, x2, tolerancia, maxIteraciones)
     ENTRADA:
-        - f: función a resolver
+        - f: funciï¿½n a resolver
         - x0, x1, x2: tres aproximaciones iniciales
         - tolerancia: criterio de convergencia
-        - maxIteraciones: máximo de iteraciones permitidas
+        - maxIteraciones: mï¿½ximo de iteraciones permitidas
     
-    SALIDA: raíz aproximada x
+    SALIDA: raï¿½z aproximada x
     
     INICIO
-        iteración ? 0
+        iteraciï¿½n ? 0
         error ? infinito
         
-        MIENTRAS error > tolerancia Y iteración < maxIteraciones HACER
-            // Evaluar la función en los tres puntos
+        MIENTRAS error > tolerancia Y iteraciï¿½n < maxIteraciones HACER
+            // Evaluar la funciï¿½n en los tres puntos
             fx0 ? f(x0)
             fx1 ? f(x1)
             fx2 ? f(x2)
@@ -427,13 +424,13 @@ ALGORITMO Müller(f, x0, x1, x2, tolerancia, maxIteraciones)
             delta0 ? (fx1 - fx0) / h0
             delta1 ? (fx2 - fx1) / h1
             
-            // Coeficientes del polinomio cuadrático
+            // Coeficientes del polinomio cuadrï¿½tico
             a ? (delta1 - delta0) / (h1 + h0)
             b ? delta1 + h1 * a
             c ? fx2
             
             // Calcular discriminante
-            discriminante ? b² - 4*a*c
+            discriminante ? bï¿½ - 4*a*c
             
             SI |a| < 1e-10 ENTONCES
                 RETORNAR "Error: Coeficiente 'a' muy cercano a cero"
@@ -449,19 +446,19 @@ ALGORITMO Müller(f, x0, x1, x2, tolerancia, maxIteraciones)
                 denominador ? denominador2
             FIN SI
             
-            // Calcular nueva aproximación
+            // Calcular nueva aproximaciï¿½n
             x3 ? x2 - (2*c) / denominador
             error ? |x3 - x2|
             
-            // Guardar resultado de la iteración
-            GUARDAR(iteración, x0, x1, x2, x3, error)
+            // Guardar resultado de la iteraciï¿½n
+            GUARDAR(iteraciï¿½n, x0, x1, x2, x3, error)
             
             // Desplazar aproximaciones
             x0 ? x1
             x1 ? x2
             x2 ? x3
             
-            iteración ? iteración + 1
+            iteraciï¿½n ? iteraciï¿½n + 1
         FIN MIENTRAS
         
         RETORNAR x2
@@ -474,36 +471,36 @@ ALGORITMO Müller(f, x0, x1, x2, tolerancia, maxIteraciones)
 
 ### Pantalla Principal
 
-1. Al iniciar la aplicación, verá la pantalla de bienvenida
-2. Seleccione el método deseado de la barra lateral izquierda
+1. Al iniciar la aplicaciï¿½n, verï¿½ la pantalla de bienvenida
+2. Seleccione el mï¿½todo deseado de la barra lateral izquierda
 
 ### Ingreso de Datos
 
-Para cada método debe proporcionar:
+Para cada mï¿½todo debe proporcionar:
 
-- **Función f(x)**: La ecuación a resolver
-  - Use el botón "?? Insertar Ecuación" para usar el teclado visual
+- **Funciï¿½n f(x)**: La ecuaciï¿½n a resolver
+  - Use el botï¿½n "?? Insertar Ecuaciï¿½n" para usar el teclado visual
   - Ejemplo: `x^3 - 2*x - 5`
 
-- **Parámetros específicos**:
-  - **Bisección/Falsa Posición**: Intervalo [a, b]
+- **Parï¿½metros especï¿½ficos**:
+  - **Bisecciï¿½n/Falsa Posiciï¿½n**: Intervalo [a, b]
   - **Secante**: Dos aproximaciones iniciales (x0, x1)
-  - **Newton-Raphson**: Aproximación inicial (x0) y su derivada
-  - **Müller**: Tres aproximaciones iniciales (x0, x1, x2)
+  - **Newton-Raphson**: Aproximaciï¿½n inicial (x0) y su derivada
+  - **Mï¿½ller**: Tres aproximaciones iniciales (x0, x1, x2)
 
 - **Tolerancia (?)**: Criterio de convergencia (ej: 0.0001)
-- **Máximo de Iteraciones**: Límite de pasos permitidos (ej: 100)
+- **Mï¿½ximo de Iteraciones**: Lï¿½mite de pasos permitidos (ej: 100)
 
-### Interpretación de Resultados
+### Interpretaciï¿½n de Resultados
 
 La tabla de resultados muestra:
 
 | Columna | Significado |
 |---------|------------|
-| Iteración | Número del paso |
+| Iteraciï¿½n | Nï¿½mero del paso |
 | a/b/x0/x1 | Aproximaciones actuales |
-| c/xn | Nueva aproximación |
-| f(c)/f(x) | Valor de la función |
+| c/xn | Nueva aproximaciï¿½n |
+| f(c)/f(x) | Valor de la funciï¿½n |
 | Error | Error estimado en el paso |
 
 ---
@@ -513,63 +510,63 @@ La tabla de resultados muestra:
 - **Sistema Operativo**: Windows 7 o superior
 - **.NET Framework**: 4.7.2 o superior
 - **Visual Studio**: 2019 o superior (para compilar)
-- **RAM**: 512 MB mínimo
-- **Resolución**: 1024x768 mínima
+- **RAM**: 512 MB mï¿½nimo
+- **Resoluciï¿½n**: 1024x768 mï¿½nima
 
 ---
 
 ## ?? Funciones Soportadas
 
-### Trigonométricas
+### Trigonomï¿½tricas
 - `sin(x)` - Seno (radianes)
 - `cos(x)` - Coseno (radianes)
 - `tan(x)` - Tangente (radianes)
 
-### Matemáticas
-- `sqrt(x)` - Raíz cuadrada
+### Matemï¿½ticas
+- `sqrt(x)` - Raï¿½z cuadrada
 - `log(x)` - Logaritmo base 10
 - `ln(x)` - Logaritmo natural
-- `exp(x)` - Función exponencial
+- `exp(x)` - Funciï¿½n exponencial
 - `abs(x)` - Valor absoluto
 
 ### Constantes
 - `PI` - Pi (? ? 3.14159...)
-- `e` - Número de Euler (e ? 2.71828...)
+- `e` - Nï¿½mero de Euler (e ? 2.71828...)
 
 ### Operadores
 - `+` - Suma
 - `-` - Resta
-- `*` - Multiplicación
-- `/` - División
+- `*` - Multiplicaciï¿½n
+- `/` - Divisiï¿½n
 - `^` - Potencia (ej: x^2, x^3)
-- `( )` - Paréntesis
+- `( )` - Parï¿½ntesis
 
 ---
 
 ## ?? Ejemplos de Uso
 
-### Ejemplo 1: Encontrar raíz de f(x) = x³ - 2x - 5
+### Ejemplo 1: Encontrar raï¿½z de f(x) = xï¿½ - 2x - 5
 
 **Datos de entrada:**
-- Función: `x^3 - 2*x - 5`
-- Intervalo (Bisección): [2, 3]
+- Funciï¿½n: `x^3 - 2*x - 5`
+- Intervalo (Bisecciï¿½n): [2, 3]
 - Tolerancia: 0.0001
-- Máx iteraciones: 100
+- Mï¿½x iteraciones: 100
 
 **Resultado esperado:**
-- Raíz ? 2.094568
+- Raï¿½z ? 2.094568
 
 ### Ejemplo 2: Resolver f(x) = sin(x) - x/2
 
 **Datos de entrada:**
-- Función: `sin(x) - x/2`
-- Aproximación inicial (Newton): 2.0
+- Funciï¿½n: `sin(x) - x/2`
+- Aproximaciï¿½n inicial (Newton): 2.0
 - Derivada: `cos(x) - 0.5`
 - Tolerancia: 0.00001
-- Máx iteraciones: 50
+- Mï¿½x iteraciones: 50
 
 **Resultado esperado:**
-- Raíz ? 1.895494
+- Raï¿½z ? 1.895494
 
 ---
 
@@ -587,7 +584,7 @@ Las contribuciones son bienvenidas. Para cambios importantes:
 
 ## ?? Licencia
 
-Este proyecto está bajo la licencia MIT. Ver el archivo `LICENSE` para más detalles.
+Este proyecto estï¿½ bajo la licencia MIT. Ver el archivo `LICENSE` para mï¿½s detalles.
 
 ---
 
@@ -596,22 +593,22 @@ Este proyecto está bajo la licencia MIT. Ver el archivo `LICENSE` para más detal
 **Ulises Acosta Cervantes**
 
 - GitHub: [@UlisesACC](https://github.com/UlisesACC)
-- Institución: ESCOM - IPN
+- Instituciï¿½n: ESCOM - IPN
 
 ---
 
 ## ?? Soporte
 
-Si encuentra algún problema o tiene preguntas:
+Si encuentra algï¿½n problema o tiene preguntas:
 
-1. Verifique que está usando .NET Framework 4.7.2
-2. Asegúrese de que la función está correctamente escrita
-3. Valide que el intervalo [a,b] contiene un cambio de signo (para métodos de intervalo)
+1. Verifique que estï¿½ usando .NET Framework 4.7.2
+2. Asegï¿½rese de que la funciï¿½n estï¿½ correctamente escrita
+3. Valide que el intervalo [a,b] contiene un cambio de signo (para mï¿½todos de intervalo)
 4. Abra un issue en el repositorio de GitHub
 
 ---
 
-## ?? Referencias Bibliográficas
+## ?? Referencias Bibliogrï¿½ficas
 
 - Burden, R. L., & Faires, J. D. (2011). *Numerical Analysis* (9th ed.). Brooks/Cole.
 - Chapra, S. C., & Canale, R. P. (2015). *Numerical Methods for Engineers* (7th ed.). McGraw-Hill.
@@ -619,4 +616,4 @@ Si encuentra algún problema o tiene preguntas:
 
 ---
 
-**Última actualización**: 2024
+**ï¿½ltima actualizaciï¿½n**: 2024
