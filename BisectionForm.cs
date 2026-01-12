@@ -12,6 +12,14 @@ namespace WindowsFormsApp1
 {
     public partial class BisectionForm : UserControl
     {
+        private TextBox txtFunction;
+        private TextBox txtA;
+        private TextBox txtB;
+        private TextBox txtTolerance;
+        private TextBox txtMaxIterations;
+        private DataGridView dgvResults;
+        private Label lblStatus;
+
         public BisectionForm()
         {
             InitializeComponent();
@@ -56,7 +64,7 @@ namespace WindowsFormsApp1
             lblFunction.Location = new Point(0, yPos);
             mainPanel.Controls.Add(lblFunction);
 
-            var txtFunction = new TextBox();
+            txtFunction = new TextBox();
             txtFunction.Name = "txtFunction";
             txtFunction.Width = 300;
             txtFunction.Height = 35;
@@ -97,7 +105,7 @@ namespace WindowsFormsApp1
             lblA.Location = new Point(0, yPos);
             mainPanel.Controls.Add(lblA);
 
-            var txtA = new TextBox();
+            txtA = new TextBox();
             txtA.Name = "txtA";
             txtA.Width = 150;
             txtA.Height = 30;
@@ -105,15 +113,15 @@ namespace WindowsFormsApp1
             txtA.Text = "2";
             mainPanel.Controls.Add(txtA);
 
-            var lblTo = new Label();
-            lblTo.Text = "a";
-            lblTo.Font = new Font("Segoe UI", 9);
-            lblTo.ForeColor = Color.Gray;
-            lblTo.AutoSize = true;
-            lblTo.Location = new Point(0, yPos + 65);
-            mainPanel.Controls.Add(lblTo);
+            var lblALabel = new Label();
+            lblALabel.Text = "a";
+            lblALabel.Font = new Font("Segoe UI", 9);
+            lblALabel.ForeColor = Color.Gray;
+            lblALabel.AutoSize = true;
+            lblALabel.Location = new Point(0, yPos + 65);
+            mainPanel.Controls.Add(lblALabel);
 
-            var txtB = new TextBox();
+            txtB = new TextBox();
             txtB.Name = "txtB";
             txtB.Width = 150;
             txtB.Height = 30;
@@ -121,13 +129,13 @@ namespace WindowsFormsApp1
             txtB.Text = "3";
             mainPanel.Controls.Add(txtB);
 
-            var lblB = new Label();
-            lblB.Text = "b";
-            lblB.Font = new Font("Segoe UI", 9);
-            lblB.ForeColor = Color.Gray;
-            lblB.AutoSize = true;
-            lblB.Location = new Point(170, yPos + 65);
-            mainPanel.Controls.Add(lblB);
+            var lblBLabel = new Label();
+            lblBLabel.Text = "b";
+            lblBLabel.Font = new Font("Segoe UI", 9);
+            lblBLabel.ForeColor = Color.Gray;
+            lblBLabel.AutoSize = true;
+            lblBLabel.Location = new Point(170, yPos + 65);
+            mainPanel.Controls.Add(lblBLabel);
 
             yPos += 100;
 
@@ -138,7 +146,7 @@ namespace WindowsFormsApp1
             lblTolerance.Location = new Point(0, yPos);
             mainPanel.Controls.Add(lblTolerance);
 
-            var txtTolerance = new TextBox();
+            txtTolerance = new TextBox();
             txtTolerance.Name = "txtTolerance";
             txtTolerance.Width = 150;
             txtTolerance.Height = 30;
@@ -155,7 +163,7 @@ namespace WindowsFormsApp1
             lblMaxIterations.Location = new Point(0, yPos);
             mainPanel.Controls.Add(lblMaxIterations);
 
-            var txtMaxIterations = new TextBox();
+            txtMaxIterations = new TextBox();
             txtMaxIterations.Name = "txtMaxIterations";
             txtMaxIterations.Width = 150;
             txtMaxIterations.Height = 30;
@@ -177,10 +185,21 @@ namespace WindowsFormsApp1
             btnCalculate.FlatStyle = FlatStyle.Flat;
             btnCalculate.FlatAppearance.BorderSize = 0;
             btnCalculate.Cursor = Cursors.Hand;
-            btnCalculate.Click += (s, e) => CalculateBisection(mainPanel, txtFunction, txtA, txtB, txtTolerance, txtMaxIterations);
+            btnCalculate.Click += (s, e) => CalculateBisection();
             mainPanel.Controls.Add(btnCalculate);
 
             yPos += 60;
+
+            // Status label
+            lblStatus = new Label();
+            lblStatus.Text = "";
+            lblStatus.Font = new Font("Segoe UI", 10, FontStyle.Regular);
+            lblStatus.ForeColor = Color.Green;
+            lblStatus.AutoSize = true;
+            lblStatus.Location = new Point(0, yPos);
+            mainPanel.Controls.Add(lblStatus);
+
+            yPos += 30;
 
             // Results section
             var lblResults = new Label();
@@ -193,47 +212,65 @@ namespace WindowsFormsApp1
 
             yPos += 40;
 
-            var dgvResults = new DataGridView();
+            dgvResults = new DataGridView();
             dgvResults.Name = "dgvResults";
-            dgvResults.Width = 800;
-            dgvResults.Height = 300;
+            dgvResults.Width = 900;
+            dgvResults.Height = 350;
             dgvResults.Location = new Point(0, yPos);
             dgvResults.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dgvResults.AllowUserToAddRows = false;
+            dgvResults.ReadOnly = true;
             dgvResults.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
             dgvResults.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(0, 122, 204);
             dgvResults.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             dgvResults.BackgroundColor = Color.White;
             dgvResults.GridColor = Color.LightGray;
+            dgvResults.RowHeadersVisible = false;
             mainPanel.Controls.Add(dgvResults);
         }
 
-        private void CalculateBisection(Panel mainPanel, TextBox txtFunction, TextBox txtA, TextBox txtB, TextBox txtTolerance, TextBox txtMaxIterations)
+        private void CalculateBisection()
         {
             try
             {
+                lblStatus.Text = "";
+                dgvResults.Rows.Clear();
+                dgvResults.Columns.Clear();
+
                 // Validate expression
                 if (!MathExpressionEvaluator.ValidateExpression(txtFunction.Text))
                 {
-                    MessageBox.Show("Expresión inválida. Verifique la sintaxis.\n\nEjemplos válidos:\n• x^3 - 2*x - 5\n• sin(x) - x/2\n• cos(x) - x", "Error de Sintaxis", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Expresión inválida. Verifique la sintaxis.\n\nEjemplos válidos:\n• x^3 - 2*x - 5\n• sin(x) - x/2\n• cos(x) - x", 
+                        "Error de Sintaxis", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                var dgv = mainPanel.Controls["dgvResults"] as DataGridView;
-                dgv.Columns.Clear();
-                dgv.Columns.Add("Iteración", "Iteración");
-                dgv.Columns.Add("a", "a");
-                dgv.Columns.Add("b", "b");
-                dgv.Columns.Add("c", "c");
-                dgv.Columns.Add("f(c)", "f(c)");
-                dgv.Columns.Add("Error", "Error");
-
-                if (!double.TryParse(txtA.Text, out double a) || 
-                    !double.TryParse(txtB.Text, out double b) ||
-                    !double.TryParse(txtTolerance.Text, out double tolerance) ||
-                    !int.TryParse(txtMaxIterations.Text, out int maxIter))
+                // Parse input values
+                if (!double.TryParse(txtA.Text, out double a))
                 {
-                    MessageBox.Show("Ingrese valores numéricos válidos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("El valor de 'a' no es un número válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtA.Focus();
+                    return;
+                }
+
+                if (!double.TryParse(txtB.Text, out double b))
+                {
+                    MessageBox.Show("El valor de 'b' no es un número válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtB.Focus();
+                    return;
+                }
+
+                if (!double.TryParse(txtTolerance.Text, out double tolerance) || tolerance <= 0)
+                {
+                    MessageBox.Show("La tolerancia debe ser un número positivo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtTolerance.Focus();
+                    return;
+                }
+
+                if (!int.TryParse(txtMaxIterations.Text, out int maxIter) || maxIter <= 0)
+                {
+                    MessageBox.Show("El máximo de iteraciones debe ser un número positivo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtMaxIterations.Focus();
                     return;
                 }
 
@@ -243,15 +280,23 @@ namespace WindowsFormsApp1
 
                 if (fa * fb >= 0)
                 {
-                    MessageBox.Show("Error: f(a) y f(b) deben tener signos opuestos.\n" +
-                        $"f({a}) = {fa:F4}\n" +
-                        $"f({b}) = {fb:F4}", "Error de Intervalo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Error: f(a) y f(b) deben tener signos opuestos.\n\nf({a}) = {fa:F6}\nf({b}) = {fb:F6}\n\nIntente con otro intervalo.", 
+                        "Error de Intervalo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
+                // Initialize DataGridView columns
+                dgvResults.Columns.Add("Iteración", "Iteración");
+                dgvResults.Columns.Add("a", "a");
+                dgvResults.Columns.Add("b", "b");
+                dgvResults.Columns.Add("c", "c (punto medio)");
+                dgvResults.Columns.Add("f(c)", "f(c)");
+                dgvResults.Columns.Add("Error", "Error |b-a|/2");
+
+                // Bisection algorithm
                 string function = txtFunction.Text;
                 int iteration = 0;
-                double error = double.MaxValue;
+                double error = Math.Abs(b - a);
                 double c = 0;
 
                 while (error > tolerance && iteration < maxIter)
@@ -262,7 +307,15 @@ namespace WindowsFormsApp1
 
                     error = Math.Abs(b - a) / 2;
 
-                    dgv.Rows.Add(iteration + 1, Math.Round(a, 6), Math.Round(b, 6), Math.Round(c, 6), Math.Round(fc, 6), Math.Round(error, 6));
+                    // Add row to DataGridView
+                    dgvResults.Rows.Add(
+                        iteration + 1,
+                        Math.Round(a, 6),
+                        Math.Round(b, 6),
+                        Math.Round(c, 6),
+                        Math.Round(fc, 8),
+                        Math.Round(error, 8)
+                    );
 
                     if (fa * fc < 0)
                         b = c;
@@ -272,10 +325,25 @@ namespace WindowsFormsApp1
                     iteration++;
                 }
 
-                MessageBox.Show($"? Raíz encontrada: {Math.Round((a + b) / 2, 6)}\nIteraciones: {iteration}", "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // Final result
+                c = (a + b) / 2;
+                double resultValue = MathExpressionEvaluator.Evaluate(function, c);
+
+                lblStatus.Text = $"? Raíz encontrada: {Math.Round(c, 6)} | f(raíz) = {Math.Round(resultValue, 8)} | Iteraciones: {iteration}";
+                lblStatus.ForeColor = Color.Green;
+
+                MessageBox.Show(
+                    $"? Cálculo completado exitosamente\n\n" +
+                    $"Raíz encontrada: {Math.Round(c, 6)}\n" +
+                    $"f(raíz) = {Math.Round(resultValue, 8)}\n" +
+                    $"Iteraciones realizadas: {iteration}\n" +
+                    $"Error final: {Math.Round(error, 8)}\n" +
+                    $"Tolerancia: {tolerance}",
+                    "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
+                lblStatus.Text = "";
                 MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
