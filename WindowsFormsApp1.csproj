@@ -73,6 +73,11 @@
     <Compile Include="SecantForm.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="WindowsFormsApp1\BisectionForm.Designer.cs" />
+    <Compile Include="WindowsFormsApp1\FalsePositionForm.Designer.cs" />
+    <Compile Include="WindowsFormsApp1\MullerForm.Designer.cs" />
+    <Compile Include="WindowsFormsApp1\NewtonForm.Designer.cs" />
+    <Compile Include="WindowsFormsApp1\SecantForm.Designer.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

@@ -23,9 +23,10 @@ namespace WindowsFormsApp1
         public BisectionForm()
         {
             InitializeComponent();
+            CreateUI();
         }
 
-        private void InitializeComponent()
+        private void CreateUI()
         {
             this.Dock = DockStyle.Fill;
             this.BackColor = Color.White;

@@ -17,7 +17,7 @@ namespace WindowsFormsApp1
             InitializeComponent();
         }
 
-        private void InitializeComponent()
+        private void CreateUI()
         {
             this.Dock = DockStyle.Fill;
             this.BackColor = Color.White;
