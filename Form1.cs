@@ -243,9 +243,6 @@ namespace WindowsFormsApp1
         {
             this.mainPanel.Controls.Clear();
 
-            // Animar la compresión de la barra lateral
-            CompressLeftPanel();
-
             // Create a container that will hold both top bar and content
             var containerPanel = new Panel();
             containerPanel.Dock = DockStyle.Fill;
@@ -288,6 +285,7 @@ namespace WindowsFormsApp1
             var contentPanel = new Panel();
             contentPanel.Dock = DockStyle.Fill;
             contentPanel.BackColor = Color.FromArgb(236, 240, 241);
+            contentPanel.AutoScroll = true;
             form.Dock = DockStyle.Fill;
             contentPanel.Controls.Add(form);
             containerPanel.Controls.Add(contentPanel);

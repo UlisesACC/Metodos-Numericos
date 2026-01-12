@@ -12,9 +12,18 @@ namespace WindowsFormsApp1
 {
     public partial class NewtonForm : UserControl
     {
+        private TextBox txtFunction;
+        private TextBox txtDerivative;
+        private TextBox txtX0;
+        private TextBox txtTolerance;
+        private TextBox txtMaxIterations;
+        private DataGridView dgvResults;
+        private Label lblStatus;
+
         public NewtonForm()
         {
             InitializeComponent();
+            CreateUI();
         }
 
         private void CreateUI()
@@ -23,10 +32,13 @@ namespace WindowsFormsApp1
             this.BackColor = Color.White;
             this.AutoScroll = true;
 
-            // Main container
-            var mainPanel = new Panel();
+            // Main container with FlowLayoutPanel
+            var mainPanel = new FlowLayoutPanel();
             mainPanel.Dock = DockStyle.Fill;
             mainPanel.Padding = new Padding(20);
+            mainPanel.AutoScroll = true;
+            mainPanel.WrapContents = false;
+            mainPanel.FlowDirection = FlowDirection.TopDown;
             this.Controls.Add(mainPanel);
 
             // Title
@@ -35,7 +47,6 @@ namespace WindowsFormsApp1
             lblTitle.Font = new Font("Segoe UI", 22, FontStyle.Bold);
             lblTitle.ForeColor = Color.FromArgb(0, 122, 204);
             lblTitle.AutoSize = true;
-            lblTitle.Location = new Point(0, 0);
             mainPanel.Controls.Add(lblTitle);
 
             // Separator
@@ -43,38 +54,35 @@ namespace WindowsFormsApp1
             separator.BackColor = Color.FromArgb(0, 122, 204);
             separator.Height = 3;
             separator.Width = 100;
-            separator.Location = new Point(0, 35);
             mainPanel.Controls.Add(separator);
 
-            // Input section
-            int yPos = 60;
+            // Input section container
+            var inputContainer = new Panel();
+            inputContainer.AutoSize = true;
+            inputContainer.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            inputContainer.Width = 500;
+            mainPanel.Controls.Add(inputContainer);
+
+            int yPos = 0;
 
             var lblFunction = new Label();
             lblFunction.Text = "Función f(x):";
             lblFunction.Font = new Font("Segoe UI", 11, FontStyle.Bold);
             lblFunction.AutoSize = true;
             lblFunction.Location = new Point(0, yPos);
-            mainPanel.Controls.Add(lblFunction);
+            inputContainer.Controls.Add(lblFunction);
 
-            var lblHelper = new Label();
-            lblHelper.Text = "Ejemplo: x^3 - 2*x - 5 | sin(x) | cos(x) | sqrt(x) | log(x) | ln(x)";
-            lblHelper.Font = new Font("Segoe UI", 9, FontStyle.Italic);
-            lblHelper.ForeColor = Color.FromArgb(100, 100, 100);
-            lblHelper.AutoSize = true;
-            lblHelper.Location = new Point(0, yPos + 25);
-            mainPanel.Controls.Add(lblHelper);
-
-            var txtFunction = new TextBox();
+            txtFunction = new TextBox();
             txtFunction.Name = "txtFunction";
             txtFunction.Width = 300;
             txtFunction.Height = 35;
             txtFunction.Location = new Point(0, yPos + 30);
             txtFunction.Text = "x^3 - 2*x - 5";
             txtFunction.Font = new Font("Segoe UI", 10);
-            mainPanel.Controls.Add(txtFunction);
+            inputContainer.Controls.Add(txtFunction);
 
             var btnEquation = new Button();
-            btnEquation.Text = "?? Insertar Ecuación";
+            btnEquation.Text = "? Insertar Ecuación";
             btnEquation.Width = 150;
             btnEquation.Height = 35;
             btnEquation.Location = new Point(310, yPos + 30);
@@ -94,7 +102,7 @@ namespace WindowsFormsApp1
                     }
                 }
             };
-            mainPanel.Controls.Add(btnEquation);
+            inputContainer.Controls.Add(btnEquation);
 
             yPos += 80;
 
@@ -103,39 +111,16 @@ namespace WindowsFormsApp1
             lblDerivative.Font = new Font("Segoe UI", 11, FontStyle.Bold);
             lblDerivative.AutoSize = true;
             lblDerivative.Location = new Point(0, yPos);
-            mainPanel.Controls.Add(lblDerivative);
+            inputContainer.Controls.Add(lblDerivative);
 
-            var txtDerivative = new TextBox();
+            txtDerivative = new TextBox();
             txtDerivative.Name = "txtDerivative";
             txtDerivative.Width = 300;
             txtDerivative.Height = 35;
             txtDerivative.Location = new Point(0, yPos + 30);
             txtDerivative.Text = "3*x^2 - 2";
             txtDerivative.Font = new Font("Segoe UI", 10);
-            mainPanel.Controls.Add(txtDerivative);
-
-            var btnDerivativeEquation = new Button();
-            btnDerivativeEquation.Text = "?? Insertar Ecuación";
-            btnDerivativeEquation.Width = 150;
-            btnDerivativeEquation.Height = 35;
-            btnDerivativeEquation.Location = new Point(310, yPos + 30);
-            btnDerivativeEquation.BackColor = Color.FromArgb(0, 150, 136);
-            btnDerivativeEquation.ForeColor = Color.White;
-            btnDerivativeEquation.Font = new Font("Segoe UI", 9, FontStyle.Bold);
-            btnDerivativeEquation.FlatStyle = FlatStyle.Flat;
-            btnDerivativeEquation.FlatAppearance.BorderSize = 0;
-            btnDerivativeEquation.Cursor = Cursors.Hand;
-            btnDerivativeEquation.Click += (s, e) =>
-            {
-                using (var dialog = new EquationInputDialog(txtDerivative.Text))
-                {
-                    if (dialog.ShowDialog() == DialogResult.OK)
-                    {
-                        txtDerivative.Text = dialog.Expression;
-                    }
-                }
-            };
-            mainPanel.Controls.Add(btnDerivativeEquation);
+            inputContainer.Controls.Add(txtDerivative);
 
             yPos += 80;
 
@@ -144,15 +129,15 @@ namespace WindowsFormsApp1
             lblX0.Font = new Font("Segoe UI", 11, FontStyle.Bold);
             lblX0.AutoSize = true;
             lblX0.Location = new Point(0, yPos);
-            mainPanel.Controls.Add(lblX0);
+            inputContainer.Controls.Add(lblX0);
 
-            var txtX0 = new TextBox();
+            txtX0 = new TextBox();
             txtX0.Name = "txtX0";
             txtX0.Width = 150;
             txtX0.Height = 30;
             txtX0.Location = new Point(0, yPos + 30);
             txtX0.Text = "2.5";
-            mainPanel.Controls.Add(txtX0);
+            inputContainer.Controls.Add(txtX0);
 
             yPos += 80;
 
@@ -161,15 +146,15 @@ namespace WindowsFormsApp1
             lblTolerance.Font = new Font("Segoe UI", 11, FontStyle.Bold);
             lblTolerance.AutoSize = true;
             lblTolerance.Location = new Point(0, yPos);
-            mainPanel.Controls.Add(lblTolerance);
+            inputContainer.Controls.Add(lblTolerance);
 
-            var txtTolerance = new TextBox();
+            txtTolerance = new TextBox();
             txtTolerance.Name = "txtTolerance";
             txtTolerance.Width = 150;
             txtTolerance.Height = 30;
             txtTolerance.Location = new Point(0, yPos + 30);
             txtTolerance.Text = "0.0001";
-            mainPanel.Controls.Add(txtTolerance);
+            inputContainer.Controls.Add(txtTolerance);
 
             yPos += 80;
 
@@ -178,15 +163,15 @@ namespace WindowsFormsApp1
             lblMaxIterations.Font = new Font("Segoe UI", 11, FontStyle.Bold);
             lblMaxIterations.AutoSize = true;
             lblMaxIterations.Location = new Point(0, yPos);
-            mainPanel.Controls.Add(lblMaxIterations);
+            inputContainer.Controls.Add(lblMaxIterations);
 
-            var txtMaxIterations = new TextBox();
+            txtMaxIterations = new TextBox();
             txtMaxIterations.Name = "txtMaxIterations";
             txtMaxIterations.Width = 150;
             txtMaxIterations.Height = 30;
             txtMaxIterations.Location = new Point(0, yPos + 30);
             txtMaxIterations.Text = "100";
-            mainPanel.Controls.Add(txtMaxIterations);
+            inputContainer.Controls.Add(txtMaxIterations);
 
             yPos += 80;
 
@@ -202,10 +187,19 @@ namespace WindowsFormsApp1
             btnCalculate.FlatStyle = FlatStyle.Flat;
             btnCalculate.FlatAppearance.BorderSize = 0;
             btnCalculate.Cursor = Cursors.Hand;
-            btnCalculate.Click += (s, e) => CalculateNewton(mainPanel, txtFunction, txtDerivative, txtX0, txtTolerance, txtMaxIterations);
-            mainPanel.Controls.Add(btnCalculate);
+            btnCalculate.Click += (s, e) => CalculateNewton();
+            inputContainer.Controls.Add(btnCalculate);
 
             yPos += 60;
+
+            // Status label
+            lblStatus = new Label();
+            lblStatus.Text = "";
+            lblStatus.Font = new Font("Segoe UI", 10, FontStyle.Regular);
+            lblStatus.ForeColor = Color.Green;
+            lblStatus.AutoSize = true;
+            lblStatus.Location = new Point(0, yPos);
+            inputContainer.Controls.Add(lblStatus);
 
             // Results section
             var lblResults = new Label();
@@ -213,63 +207,77 @@ namespace WindowsFormsApp1
             lblResults.Font = new Font("Segoe UI", 14, FontStyle.Bold);
             lblResults.ForeColor = Color.FromArgb(0, 122, 204);
             lblResults.AutoSize = true;
-            lblResults.Location = new Point(0, yPos);
             mainPanel.Controls.Add(lblResults);
 
-            yPos += 40;
-
-            var dgvResults = new DataGridView();
+            dgvResults = new DataGridView();
             dgvResults.Name = "dgvResults";
-            dgvResults.Width = 900;
-            dgvResults.Height = 300;
-            dgvResults.Location = new Point(0, yPos);
+            dgvResults.Width = 1000;
+            dgvResults.Height = 400;
             dgvResults.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dgvResults.AllowUserToAddRows = false;
+            dgvResults.ReadOnly = true;
             dgvResults.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
             dgvResults.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(0, 122, 204);
             dgvResults.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             dgvResults.BackgroundColor = Color.White;
             dgvResults.GridColor = Color.LightGray;
+            dgvResults.RowHeadersVisible = false;
             mainPanel.Controls.Add(dgvResults);
         }
 
-        private void CalculateNewton(Panel mainPanel, TextBox txtFunction, TextBox txtDerivative, TextBox txtX0, TextBox txtTolerance, TextBox txtMaxIterations)
+        private void CalculateNewton()
         {
             try
             {
-                if (!MathExpressionEvaluator.ValidateExpression(txtFunction.Text))
+                lblStatus.Text = "";
+                dgvResults.Rows.Clear();
+                dgvResults.Columns.Clear();
+
+                // Validate expressions
+                if (!MathExpressionEvaluator.ValidateExpression(txtFunction.Text) || 
+                    !MathExpressionEvaluator.ValidateExpression(txtDerivative.Text))
                 {
-                    MessageBox.Show("Expresión inválida. Verifique la sintaxis.\n\nEjemplos válidos:\n• x^3 - 2*x - 5\n• sin(x) - x/2\n• cos(x) - x", "Error de Sintaxis", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Expresión inválida. Verifique la sintaxis.", 
+                        "Error de Sintaxis", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                if (!MathExpressionEvaluator.ValidateExpression(txtDerivative.Text))
+                // Parse input values
+                if (!double.TryParse(txtX0.Text, out double x0))
                 {
-                    MessageBox.Show("Expresión de derivada inválida. Verifique la sintaxis.", "Error de Sintaxis", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("El valor de 'x0' no es un número válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtX0.Focus();
                     return;
                 }
 
-                var dgv = mainPanel.Controls["dgvResults"] as DataGridView;
-                dgv.Columns.Clear();
-                dgv.Columns.Add("Iteración", "Iteración");
-                dgv.Columns.Add("xn", "xn");
-                dgv.Columns.Add("f(xn)", "f(xn)");
-                dgv.Columns.Add("f'(xn)", "f'(xn)");
-                dgv.Columns.Add("xn+1", "xn+1");
-                dgv.Columns.Add("Error", "Error");
-
-                if (!double.TryParse(txtX0.Text, out double x) || 
-                    !double.TryParse(txtTolerance.Text, out double tolerance) ||
-                    !int.TryParse(txtMaxIterations.Text, out int maxIter))
+                if (!double.TryParse(txtTolerance.Text, out double tolerance) || tolerance <= 0)
                 {
-                    MessageBox.Show("Ingrese valores numéricos válidos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("La tolerancia debe ser un número positivo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtTolerance.Focus();
                     return;
                 }
 
+                if (!int.TryParse(txtMaxIterations.Text, out int maxIter) || maxIter <= 0)
+                {
+                    MessageBox.Show("El máximo de iteraciones debe ser un número positivo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtMaxIterations.Focus();
+                    return;
+                }
+
+                // Initialize DataGridView columns
+                dgvResults.Columns.Add("Iteración", "Iteración");
+                dgvResults.Columns.Add("x", "x");
+                dgvResults.Columns.Add("f(x)", "f(x)");
+                dgvResults.Columns.Add("f'(x)", "f'(x)");
+                dgvResults.Columns.Add("x_nuevo", "x_nuevo");
+                dgvResults.Columns.Add("Error", "Error |x_nuevo - x|");
+
+                // Newton-Raphson algorithm
                 string function = txtFunction.Text;
                 string derivative = txtDerivative.Text;
                 int iteration = 0;
-                double error = double.MaxValue;
+                double error = tolerance + 1;
+                double x = x0;
 
                 while (error > tolerance && iteration < maxIter)
                 {
@@ -278,23 +286,45 @@ namespace WindowsFormsApp1
 
                     if (Math.Abs(fpx) < 1e-10)
                     {
-                        MessageBox.Show("La derivada es muy cercana a cero. No se puede continuar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Error: La derivada es muy pequeña (división por cero).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
-                    double xNext = x - fx / fpx;
-                    error = Math.Abs(xNext - x);
+                    double xNew = x - (fx / fpx);
+                    error = Math.Abs(xNew - x);
 
-                    dgv.Rows.Add(iteration + 1, Math.Round(x, 6), Math.Round(fx, 6), Math.Round(fpx, 6), Math.Round(xNext, 6), Math.Round(error, 6));
+                    // Add row to DataGridView
+                    dgvResults.Rows.Add(
+                        iteration + 1,
+                        Math.Round(x, 6),
+                        Math.Round(fx, 8),
+                        Math.Round(fpx, 8),
+                        Math.Round(xNew, 6),
+                        Math.Round(error, 8)
+                    );
 
-                    x = xNext;
+                    x = xNew;
                     iteration++;
                 }
 
-                MessageBox.Show($"? Raíz encontrada: {Math.Round(x, 6)}\nIteraciones: {iteration}", "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // Final result
+                double resultValue = MathExpressionEvaluator.Evaluate(function, x);
+
+                lblStatus.Text = $"? Raíz encontrada: {Math.Round(x, 6)} | f(raíz) = {Math.Round(resultValue, 8)} | Iteraciones: {iteration}";
+                lblStatus.ForeColor = Color.Green;
+
+                MessageBox.Show(
+                    $"? Cálculo completado exitosamente\n\n" +
+                    $"Raíz encontrada: {Math.Round(x, 6)}\n" +
+                    $"f(raíz) = {Math.Round(resultValue, 8)}\n" +
+                    $"Iteraciones realizadas: {iteration}\n" +
+                    $"Error final: {Math.Round(error, 8)}\n" +
+                    $"Tolerancia: {tolerance}",
+                    "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
+                lblStatus.Text = "";
                 MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

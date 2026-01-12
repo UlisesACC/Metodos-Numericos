@@ -10,17 +10,18 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApp1
 {
-    public partial class BisectionForm : UserControl
+    public partial class MullerForm : UserControl
     {
         private TextBox txtFunction;
-        private TextBox txtA;
-        private TextBox txtB;
+        private TextBox txtX0;
+        private TextBox txtX1;
+        private TextBox txtX2;
         private TextBox txtTolerance;
         private TextBox txtMaxIterations;
         private DataGridView dgvResults;
         private Label lblStatus;
 
-        public BisectionForm()
+        public MullerForm()
         {
             InitializeComponent();
             CreateUI();
@@ -43,7 +44,7 @@ namespace WindowsFormsApp1
 
             // Title
             var lblTitle = new Label();
-            lblTitle.Text = "Método de Bisección";
+            lblTitle.Text = "Método de Müller";
             lblTitle.Font = new Font("Segoe UI", 22, FontStyle.Bold);
             lblTitle.ForeColor = Color.FromArgb(0, 122, 204);
             lblTitle.AutoSize = true;
@@ -106,44 +107,60 @@ namespace WindowsFormsApp1
 
             yPos += 80;
 
-            var lblA = new Label();
-            lblA.Text = "Intervalo [a, b]:";
-            lblA.Font = new Font("Segoe UI", 11, FontStyle.Bold);
-            lblA.AutoSize = true;
-            lblA.Location = new Point(0, yPos);
-            inputContainer.Controls.Add(lblA);
+            var lblX0 = new Label();
+            lblX0.Text = "Tres aproximaciones iniciales:";
+            lblX0.Font = new Font("Segoe UI", 11, FontStyle.Bold);
+            lblX0.AutoSize = true;
+            lblX0.Location = new Point(0, yPos);
+            inputContainer.Controls.Add(lblX0);
 
-            txtA = new TextBox();
-            txtA.Name = "txtA";
-            txtA.Width = 150;
-            txtA.Height = 30;
-            txtA.Location = new Point(0, yPos + 30);
-            txtA.Text = "2";
-            inputContainer.Controls.Add(txtA);
+            txtX0 = new TextBox();
+            txtX0.Name = "txtX0";
+            txtX0.Width = 150;
+            txtX0.Height = 30;
+            txtX0.Location = new Point(0, yPos + 30);
+            txtX0.Text = "1";
+            inputContainer.Controls.Add(txtX0);
 
-            var lblALabel = new Label();
-            lblALabel.Text = "a";
-            lblALabel.Font = new Font("Segoe UI", 9);
-            lblALabel.ForeColor = Color.Gray;
-            lblALabel.AutoSize = true;
-            lblALabel.Location = new Point(0, yPos + 65);
-            inputContainer.Controls.Add(lblALabel);
+            var lblX0Label = new Label();
+            lblX0Label.Text = "x0";
+            lblX0Label.Font = new Font("Segoe UI", 9);
+            lblX0Label.ForeColor = Color.Gray;
+            lblX0Label.AutoSize = true;
+            lblX0Label.Location = new Point(0, yPos + 65);
+            inputContainer.Controls.Add(lblX0Label);
 
-            txtB = new TextBox();
-            txtB.Name = "txtB";
-            txtB.Width = 150;
-            txtB.Height = 30;
-            txtB.Location = new Point(170, yPos + 30);
-            txtB.Text = "3";
-            inputContainer.Controls.Add(txtB);
+            txtX1 = new TextBox();
+            txtX1.Name = "txtX1";
+            txtX1.Width = 150;
+            txtX1.Height = 30;
+            txtX1.Location = new Point(170, yPos + 30);
+            txtX1.Text = "2";
+            inputContainer.Controls.Add(txtX1);
 
-            var lblBLabel = new Label();
-            lblBLabel.Text = "b";
-            lblBLabel.Font = new Font("Segoe UI", 9);
-            lblBLabel.ForeColor = Color.Gray;
-            lblBLabel.AutoSize = true;
-            lblBLabel.Location = new Point(170, yPos + 65);
-            inputContainer.Controls.Add(lblBLabel);
+            var lblX1Label = new Label();
+            lblX1Label.Text = "x1";
+            lblX1Label.Font = new Font("Segoe UI", 9);
+            lblX1Label.ForeColor = Color.Gray;
+            lblX1Label.AutoSize = true;
+            lblX1Label.Location = new Point(170, yPos + 65);
+            inputContainer.Controls.Add(lblX1Label);
+
+            txtX2 = new TextBox();
+            txtX2.Name = "txtX2";
+            txtX2.Width = 150;
+            txtX2.Height = 30;
+            txtX2.Location = new Point(340, yPos + 30);
+            txtX2.Text = "3";
+            inputContainer.Controls.Add(txtX2);
+
+            var lblX2Label = new Label();
+            lblX2Label.Text = "x2";
+            lblX2Label.Font = new Font("Segoe UI", 9);
+            lblX2Label.ForeColor = Color.Gray;
+            lblX2Label.AutoSize = true;
+            lblX2Label.Location = new Point(340, yPos + 65);
+            inputContainer.Controls.Add(lblX2Label);
 
             yPos += 100;
 
@@ -193,7 +210,7 @@ namespace WindowsFormsApp1
             btnCalculate.FlatStyle = FlatStyle.Flat;
             btnCalculate.FlatAppearance.BorderSize = 0;
             btnCalculate.Cursor = Cursors.Hand;
-            btnCalculate.Click += (s, e) => CalculateBisection();
+            btnCalculate.Click += (s, e) => CalculateMuller();
             inputContainer.Controls.Add(btnCalculate);
 
             yPos += 60;
@@ -215,15 +232,10 @@ namespace WindowsFormsApp1
             lblResults.AutoSize = true;
             mainPanel.Controls.Add(lblResults);
 
-            // Results container - para mejor control del espacio
-            var resultsContainer = new Panel();
-            resultsContainer.Width = 1200;
-            resultsContainer.Height = 450;
-            mainPanel.Controls.Add(resultsContainer);
-
             dgvResults = new DataGridView();
             dgvResults.Name = "dgvResults";
-            dgvResults.Dock = DockStyle.Fill;
+            dgvResults.Width = 1000;
+            dgvResults.Height = 400;
             dgvResults.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dgvResults.AllowUserToAddRows = false;
             dgvResults.ReadOnly = true;
@@ -233,10 +245,10 @@ namespace WindowsFormsApp1
             dgvResults.BackgroundColor = Color.White;
             dgvResults.GridColor = Color.LightGray;
             dgvResults.RowHeadersVisible = false;
-            resultsContainer.Controls.Add(dgvResults);
+            mainPanel.Controls.Add(dgvResults);
         }
 
-        private void CalculateBisection()
+        private void CalculateMuller()
         {
             try
             {
@@ -247,23 +259,17 @@ namespace WindowsFormsApp1
                 // Validate expression
                 if (!MathExpressionEvaluator.ValidateExpression(txtFunction.Text))
                 {
-                    MessageBox.Show("Expresión inválida. Verifique la sintaxis.\n\nEjemplos válidos:\n• x^3 - 2*x - 5\n• sin(x) - x/2\n• cos(x) - x", 
+                    MessageBox.Show("Expresión inválida. Verifique la sintaxis.", 
                         "Error de Sintaxis", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
                 // Parse input values
-                if (!double.TryParse(txtA.Text, out double a))
+                if (!double.TryParse(txtX0.Text, out double x0) ||
+                    !double.TryParse(txtX1.Text, out double x1) ||
+                    !double.TryParse(txtX2.Text, out double x2))
                 {
-                    MessageBox.Show("El valor de 'a' no es un número válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    txtA.Focus();
-                    return;
-                }
-
-                if (!double.TryParse(txtB.Text, out double b))
-                {
-                    MessageBox.Show("El valor de 'b' no es un número válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    txtB.Focus();
+                    MessageBox.Show("Las aproximaciones iniciales deben ser números válidos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -281,67 +287,76 @@ namespace WindowsFormsApp1
                     return;
                 }
 
-                // Verify that f(a) and f(b) have opposite signs
-                double fa = MathExpressionEvaluator.Evaluate(txtFunction.Text, a);
-                double fb = MathExpressionEvaluator.Evaluate(txtFunction.Text, b);
-
-                if (fa * fb >= 0)
-                {
-                    MessageBox.Show($"Error: f(a) y f(b) deben tener signos opuestos.\n\nf({a}) = {fa:F6}\nf({b}) = {fb:F6}\n\nIntente con otro intervalo.", 
-                        "Error de Intervalo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
                 // Initialize DataGridView columns
                 dgvResults.Columns.Add("Iteración", "Iteración");
-                dgvResults.Columns.Add("a", "a");
-                dgvResults.Columns.Add("b", "b");
-                dgvResults.Columns.Add("c", "c (punto medio)");
-                dgvResults.Columns.Add("f(c)", "f(c)");
-                dgvResults.Columns.Add("Error", "Error |b-a|/2");
+                dgvResults.Columns.Add("x0", "x0");
+                dgvResults.Columns.Add("x1", "x1");
+                dgvResults.Columns.Add("x2", "x2");
+                dgvResults.Columns.Add("x3", "x3 (nuevo)");
+                dgvResults.Columns.Add("Error", "Error |x3 - x2|");
 
-                // Bisection algorithm
+                // Müller algorithm
                 string function = txtFunction.Text;
                 int iteration = 0;
-                double error = Math.Abs(b - a);
-                double c = 0;
+                double error = tolerance + 1;
 
                 while (error > tolerance && iteration < maxIter)
                 {
-                    c = (a + b) / 2;
-                    double fc = MathExpressionEvaluator.Evaluate(function, c);
-                    fa = MathExpressionEvaluator.Evaluate(function, a);
+                    double f0 = MathExpressionEvaluator.Evaluate(function, x0);
+                    double f1 = MathExpressionEvaluator.Evaluate(function, x1);
+                    double f2 = MathExpressionEvaluator.Evaluate(function, x2);
 
-                    error = Math.Abs(b - a) / 2;
+                    // Divided differences
+                    double h1 = x1 - x0;
+                    double h2 = x2 - x1;
+                    double d1 = (f1 - f0) / h1;
+                    double d2 = (f2 - f1) / h2;
+                    double c = (d2 - d1) / (h2 + h1);
+
+                    // Coefficients of quadratic
+                    double a = c;
+                    double b = d2 + h2 * c;
+                    double discr = b * b - 4 * a * f2;
+
+                    double x3;
+                    if (discr < 0)
+                    {
+                        MessageBox.Show("Error: Discriminante negativo en el cálculo de Müller.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    double denom = (Math.Abs(b + Math.Sqrt(discr)) > Math.Abs(b - Math.Sqrt(discr))) 
+                        ? b + Math.Sqrt(discr) 
+                        : b - Math.Sqrt(discr);
+
+                    x3 = x2 - (2 * f2) / denom;
+                    error = Math.Abs(x3 - x2);
 
                     // Add row to DataGridView
                     dgvResults.Rows.Add(
                         iteration + 1,
-                        Math.Round(a, 6),
-                        Math.Round(b, 6),
-                        Math.Round(c, 6),
-                        Math.Round(fc, 8),
+                        Math.Round(x0, 6),
+                        Math.Round(x1, 6),
+                        Math.Round(x2, 6),
+                        Math.Round(x3, 6),
                         Math.Round(error, 8)
                     );
 
-                    if (fa * fc < 0)
-                        b = c;
-                    else
-                        a = c;
-
+                    x0 = x1;
+                    x1 = x2;
+                    x2 = x3;
                     iteration++;
                 }
 
                 // Final result
-                c = (a + b) / 2;
-                double resultValue = MathExpressionEvaluator.Evaluate(function, c);
+                double resultValue = MathExpressionEvaluator.Evaluate(function, x2);
 
-                lblStatus.Text = $"? Raíz encontrada: {Math.Round(c, 6)} | f(raíz) = {Math.Round(resultValue, 8)} | Iteraciones: {iteration}";
+                lblStatus.Text = $"? Raíz encontrada: {Math.Round(x2, 6)} | f(raíz) = {Math.Round(resultValue, 8)} | Iteraciones: {iteration}";
                 lblStatus.ForeColor = Color.Green;
 
                 MessageBox.Show(
                     $"? Cálculo completado exitosamente\n\n" +
-                    $"Raíz encontrada: {Math.Round(c, 6)}\n" +
+                    $"Raíz encontrada: {Math.Round(x2, 6)}\n" +
                     $"f(raíz) = {Math.Round(resultValue, 8)}\n" +
                     $"Iteraciones realizadas: {iteration}\n" +
                     $"Error final: {Math.Round(error, 8)}\n" +
