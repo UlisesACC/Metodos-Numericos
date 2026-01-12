@@ -65,7 +65,7 @@ namespace WindowsFormsApp1
             accordionPanel = new Panel();
             accordionPanel.Location = new Point(10, 140);
             accordionPanel.Width = 230;
-            accordionPanel.Height = 260;
+            accordionPanel.Height = 0;
             accordionPanel.AutoScroll = true;
             accordionPanel.BackColor = lightGray;
 
